@@ -22,7 +22,7 @@ module Nzbmatrix
         "REGION" => "0",
       }
 
-      result = SearchResult.new(response)
+      result = SearchResult.new(response, nil)
       result.id.should eq(396552)
       result.name.should eq("Dark Angel S01 WS AC3 DVDRip XviD SFM")
       result.link.should eq("nzbmatrix.com/nzb-details.php?id=396552&hit=1")
@@ -40,5 +40,50 @@ module Nzbmatrix
       result.image_url.should eq("http://img132.imageshack.us/img132/3606/mv5bmtmxnja2mzk3nl5bml5kj5.jpg")
       result.region.should eq(0)
     end
+
+    describe "#download" do
+      let(:name) { "Asd asd" }
+      let(:id) { 1234567 }
+      let(:contents) { "asdasd" }
+      let(:client_stub) do
+        client_stub = double("client")
+        client_stub.should_receive(:download).with(id).and_return(contents)
+
+        client_stub
+      end
+      let(:result) do
+        result = SearchResult.new({}, client_stub)
+        result.id = id
+        result.name = name
+
+        result
+      end
+
+      context "no path given" do
+        after { File.unlink("#{name}.nzb") }
+        
+        it "allows you to download the nzb" do
+          result.download.should == id
+
+          File.file?("#{name}.nzb").should be_true
+          File.read("#{name}.nzb").should == contents
+        end
+      end
+
+      context "path given" do
+        let(:path) { "/tmp" }
+        let(:file_path) { File.join(path, "#{name}.nzb") }
+
+        after { File.unlink(file_path) }
+
+        it "allows you to specify a path to download the file to" do
+          result.download(path).should == id
+
+          File.file?(file_path).should be_true
+          File.read(file_path).should == contents
+        end
+      end
+    end
   end
+  
 end
