@@ -2,6 +2,7 @@ module Nzbmatrix
   class SearchResult
     
     require "time"
+    require "fileutils"
     
     attr_accessor :id
     attr_accessor :name
@@ -18,7 +19,9 @@ module Nzbmatrix
     attr_accessor :image_url
     attr_accessor :region
 
-    def initialize(api_response)
+    def initialize(api_response, client)
+      @client = client
+      
       @id = api_response["NZBID"].to_i
       @name = api_response["NZBNAME"]
       @link = api_response["LINK"]
@@ -34,6 +37,17 @@ module Nzbmatrix
       @language = api_response["LANGUAGE"]
       @image_url = api_response["IMAGE"]
       @region = api_response["REGION"].to_i
+    end
+
+    def download(path = nil)
+      path ||= Dir.pwd
+      path = File.expand_path(path)
+      FileUtils.mkdir_p(path)
+      
+      nzb = @client.download(id)
+      File.open(File.join(path, "#{name}.nzb"), "w") { |f| f.write(nzb) }
+
+      id
     end
 
     def has_nfo?
