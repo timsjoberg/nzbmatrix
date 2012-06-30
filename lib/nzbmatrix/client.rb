@@ -2,12 +2,17 @@ module Nzbmatrix
   require 'rest_client'
 
   class Client
+
+    require "nzbmatrix/api_response_parser"
+    require "nzbmatrix/search_result"
+    
     BASE_URL = "https://api.nzbmatrix.com/v1.1"
     
     def initialize(username, api_key)
       @username = username
       @api_key = api_key
       @creds = { :username => @username, :apikey => @api_key }
+      @parser = ApiResponseParser.new
     end
 
     def download(nzb_id)
@@ -32,7 +37,11 @@ module Nzbmatrix
     # :englishonly => 1 if added the search will only return ENGLISH and UNKNOWN matches
     # :searchin => SEARCH FIELD default name. possible options: name, subject, weblink
     def search(search_term, opts = {})
-      RestClient.get "#{BASE_URL}/search.php", :params => { :search => search_term }.merge(opts).merge(@creds)
+      params = { :search => search_term }.merge(opts).merge(@creds)
+      response = RestClient.get("#{BASE_URL}/search.php", :params => params)
+      @parser.parse(response).map do |parsed|
+        SearchResult.new(parsed)
+      end
     end
 
     def account
