@@ -40,7 +40,7 @@ module Nzbmatrix
       params = { :search => search_term }.merge(opts).merge(@creds)
       response = RestClient.get("#{BASE_URL}/search.php", :params => params)
       @parser.parse(response).map do |parsed|
-        SearchResult.new(parsed)
+        SearchResult.new(parsed, self)
       end
     end
 
