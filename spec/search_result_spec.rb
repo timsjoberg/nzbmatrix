@@ -42,38 +42,41 @@ module Nzbmatrix
     end
 
     describe "#download" do
-      it "allows you to download the nzb" do
+      let(:name) { "Asd asd" }
+      let(:id) { 1234567 }
+      let(:contents) { "asdasd" }
+      let(:client_stub) do
         client_stub = double("client")
-        client_stub.should_receive(:download).with(1234567).and_return("asdasd")
-        
+        client_stub.should_receive(:download).with(id).and_return(contents)
+
+        client_stub
+      end
+      let(:result) do
         result = SearchResult.new({}, client_stub)
-        result.id = 1234567
-        result.name = "Asd asd"
+        result.id = id
+        result.name = name
 
-        result.download.should == 1234567
+        result
+      end
+      
+      it "allows you to download the nzb" do
+        result.download.should == id
 
-        File.file?("Asd asd.nzb").should be_true
-        File.read("Asd asd.nzb").should == "asdasd"
+        File.file?("#{name}.nzb").should be_true
+        File.read("#{name}.nzb").should == contents
 
         # clean up
-        File.unlink("Asd asd.nzb")
+        File.unlink("#{name}.nzb")
       end
 
       it "allows you to specify a path to download the file to" do
-        client_stub = double("client")
-        client_stub.should_receive(:download).with(1234567).and_return("asdasd")
-        
-        result = SearchResult.new({}, client_stub)
-        result.id = 1234567
-        result.name = "Asd asd"
+        result.download("/tmp").should == id
 
-        result.download("/tmp").should == 1234567
-
-        File.file?("/tmp/Asd asd.nzb").should be_true
-        File.read("/tmp/Asd asd.nzb").should == "asdasd"
+        File.file?("/tmp/#{name}.nzb").should be_true
+        File.read("/tmp/#{name}.nzb").should == contents
 
         # clean up
-        File.unlink("/tmp/Asd asd.nzb")
+        File.unlink("/tmp/#{name}.nzb")
       end
     end
   end

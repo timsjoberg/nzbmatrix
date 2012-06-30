@@ -2,6 +2,7 @@ module Nzbmatrix
   class SearchResult
     
     require "time"
+    require "fileutils"
     
     attr_accessor :id
     attr_accessor :name
@@ -40,9 +41,11 @@ module Nzbmatrix
 
     def download(path = nil)
       path ||= Dir.pwd
-
+      path = File.expand_path(path)
+      FileUtils.mkdir_p(path)
+      
       nzb = @client.download(id)
-      File.open(File.join(File.expand_path(path), "#{name}.nzb"), "w") { |f| f.write(nzb) }
+      File.open(File.join(path, "#{name}.nzb"), "w") { |f| f.write(nzb) }
 
       id
     end
