@@ -20,7 +20,13 @@ module Nzbmatrix
     end
 
     def details(nzb_id)
-      RestClient.get "#{BASE_URL}/details.php", :params => { :id => nzb_id }.merge(@creds)
+      params = { :id => nzb_id }.merge(@creds)
+      response = RestClient.get("#{BASE_URL}/details.php", :params => params)
+      parsed_response = @parser.parse(response).first
+      result = SearchResult.new(parsed_response, self)
+      result.id = nzb_id
+
+      result
     end
 
     # Options
