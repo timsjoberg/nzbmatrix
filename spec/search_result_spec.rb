@@ -58,26 +58,32 @@ module Nzbmatrix
 
         result
       end
-      
-      it "allows you to download the nzb" do
-        result.download.should == id
 
-        File.file?("#{name}.nzb").should be_true
-        File.read("#{name}.nzb").should == contents
+      context "no path given" do
+        after { File.unlink("#{name}.nzb") }
+        
+        it "allows you to download the nzb" do
+          result.download.should == id
 
-        # clean up
-        File.unlink("#{name}.nzb")
+          File.file?("#{name}.nzb").should be_true
+          File.read("#{name}.nzb").should == contents
+        end
       end
 
-      it "allows you to specify a path to download the file to" do
-        result.download("/tmp").should == id
+      context "path given" do
+        let(:path) { "/tmp" }
+        let(:file_path) { File.join(path, "#{name}.nzb") }
 
-        File.file?("/tmp/#{name}.nzb").should be_true
-        File.read("/tmp/#{name}.nzb").should == contents
+        after { File.unlink(file_path) }
 
-        # clean up
-        File.unlink("/tmp/#{name}.nzb")
+        it "allows you to specify a path to download the file to" do
+          result.download(path).should == id
+
+          File.file?(file_path).should be_true
+          File.read(file_path).should == contents
+        end
       end
     end
   end
+  
 end
