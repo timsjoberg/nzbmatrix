@@ -16,6 +16,7 @@ Gem::Specification.new do |gem|
   gem.version       = Nzbmatrix::VERSION
 
   gem.add_runtime_dependency "rest-client"
+  gem.add_runtime_dependency "nokogiri"
 
   gem.add_development_dependency "rake"
   gem.add_development_dependency "rspec", ">= 2"

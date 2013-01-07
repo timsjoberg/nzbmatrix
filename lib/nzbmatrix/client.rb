@@ -1,65 +1,35 @@
 module Nzbmatrix
-  require 'rest_client'
-
   class Client
 
+    require "rest_client"
     require "nzbmatrix/api_response_parser"
     require "nzbmatrix/search_result"
     
-    BASE_URL = "https://api.nzbmatrix.com/v1.1"
+    ENDPOINT = "http://nzb-matrix.eu"
+
+    attr_accessor :user_id, :api_key, :endpoint
     
-    def initialize(username, api_key)
-      @username = username
+    def initialize(user_id, api_key, endpoint = ENDPOINT)
+      @user_id = user_id
       @api_key = api_key
-      @creds = { :username => @username, :apikey => @api_key }
-      @parser = ApiResponseParser.new
+      @endpoint = endpoint
     end
 
-    def download(nzb_id)
-      RestClient.get "#{BASE_URL}/download.php", :params => { :id => nzb_id }.merge(@creds)
+
+    def get(*args)
+      RestClient.get(*args)
+    end
+    
+    def api_request(function, params)
+      params = params.merge(:t => function, :apikey => @api_key)
+      get "#{endpoint}/api", :params => params
     end
 
-    def details(nzb_id)
-      params = { :id => nzb_id }.merge(@creds)
-      response = RestClient.get("#{BASE_URL}/details.php", :params => params)
-      parsed_response = @parser.parse(response).first
-      result = SearchResult.new(parsed_response, self)
-      result.id = nzb_id
-
-      result
-    end
-
-    # Options
-    # :catid => CATEGORYID all categories searched if left blank
-    # :num => MAX RESULTS default 15
-    # :age => MAX AGE default full site retention. Age must be number of "days" eg 200
-    # :region => REGION default not limited. 1 = PAL, 2 = NTSC, 3 = FREE
-    # :group => GROUP default all groups will be searched, format is full group name "alt.binaries.X"
-    # :larger => MIN SIZE minimum size in MB
-    # :smaller => MAX SIZE maximum size in MB
-    # :minhits => MIN HITS
-    # :maxhits => MAX HITS
-    # :maxage => {MAX AGE} same as :age
-    # :englishonly => 1 if added the search will only return ENGLISH and UNKNOWN matches
-    # :searchin => SEARCH FIELD default name. possible options: name, subject, weblink
-    def search(search_term, opts = {})
-      params = { :search => search_term }.merge(opts).merge(@creds)
-      response = RestClient.get("#{BASE_URL}/search.php", :params => params)
-      @parser.parse(response).map do |parsed|
-        SearchResult.new(parsed, self)
-      end
-    end
-
-    def account
-      RestClient.get "#{BASE_URL}/account.php", :params => @creds
-    end
-
-    def add_bookmark(nzb_id)
-      RestClient.get "#{BASE_URL}/bookmarks.php", :params => { :id => nzb_id, :action => 'add' }.merge(@creds)
-    end
-
-    def remove_bookmark(nzb_id)
-      RestClient.get "#{BASE_URL}/bookmarks.php", :params => { :id => nzb_id, :action => 'remove' }.merge(@creds)
+    def search(query, options = {})
+      # FIXME: provide a nicer interface so that users don't have to
+      # know category ids (and so forth)
+      params = options.merge(:q => query)
+      api_request(:search, params)
     end
   end
 end

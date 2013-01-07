@@ -1,2 +1,4 @@
-require "nzbmatrix/version"
-require "nzbmatrix/client"
+module Nzbmatrix
+  autoload :VERSION, "nzbmatrix/version"
+  autoload :Client,  "nzbmatrix/client"
+end
