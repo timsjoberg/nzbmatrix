@@ -20,14 +20,20 @@ module Nzbmatrix
     
     def api_request(function, params)
       params = params.merge(:t => function, :apikey => @api_key)
-      get "#{endpoint}/api", :params => params
+      get "#{endpoint}/api", params: params
     end
 
     def search(query, options = {})
       # FIXME: provide a nicer interface so that users don't have to
       # know category ids (and so forth)
       params = options.merge(:q => query)
-      api_request(:search, params)
+      response = api_request(:search, params)
+      Parser.new.call(response)
+    end
+
+    def get_nzb(guid, options = {})
+      params = options.merge(:i => user_id, :r => api_key)
+      get "#{endpoint}/getnzb/#{guid}.nzb", params: params
     end
   end
 end
