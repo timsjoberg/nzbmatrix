@@ -2,8 +2,6 @@ module Nzbmatrix
   class Client
 
     require "rest_client"
-    require "nzbmatrix/api_response_parser"
-    require "nzbmatrix/search_result"
     
     ENDPOINT = "http://nzb-matrix.eu"
 
