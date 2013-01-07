@@ -1,6 +1,6 @@
 module Nzbmatrix
   class Item
-    attr_accessor :element, :guid, :category
+    attr_accessor :element, :guid, :category, :size
     
     def initialize(element)
       @element = element
