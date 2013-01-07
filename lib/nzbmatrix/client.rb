@@ -33,7 +33,17 @@ module Nzbmatrix
 
     def get_nzb(guid, options = {})
       params = options.merge(:i => user_id, :r => api_key)
-      get "#{endpoint}/getnzb/#{guid}.nzb", params: params
+      content = get("#{endpoint}/getnzb/#{guid}.nzb", params: params)
+
+      # FIXME: Can we get the name from the HTTP headers and save on
+      # parsing the document? If so, is this a good idea? Maybe the
+      # name in the document is more correct, or maying parsing it
+      # will show up a parsing error earlier that you might otherwise
+      # detect it.
+      
+      document = Nokogiri::XML(content)
+      filename = document.at_css("meta[type=name]").text
+      [filename, content]
     end
   end
 end
