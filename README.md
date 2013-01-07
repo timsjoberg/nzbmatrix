@@ -1,6 +1,8 @@
 # Nzbmatrix
 
-Gem to use the nzbmatrix api. For VIP members only
+Gem to interact with http://nzb-matrix.eu. You need to sign up for an
+account and visit your profile page to get your user id (the 'i'
+param) and API key (the 'r' param).
 
 ## Installation
 
@@ -18,19 +20,8 @@ Or install it yourself as:
 
 ## Usage
 
-    client = Nzbmatrix::Client.new('username', 'apikey')
+    client = Nzbmatrix::Client.new(user_id, key)
     client.search "ubuntu"
-    client.details 1095532
-    client.download 1095532
-    client.add_bookmark 1095532
-    client.remove_bookmark 1095532
-
-This next command just gives details about your account and it's api
-usage
-
-    client.account
-
-Responses are completely unparsed at the moment.
 
 ## Contributing
 
