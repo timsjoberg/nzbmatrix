@@ -13,10 +13,6 @@ module Nzbmatrix
       @endpoint = endpoint
     end
 
-
-    def get(*args)
-      RestClient.get(*args)
-    end
     
     def api_request(function, params)
       params = params.merge(:t => function, :apikey => @api_key)
@@ -44,6 +40,13 @@ module Nzbmatrix
       document = Nokogiri::XML(content)
       filename = document.at_css("meta[type=name]").text
       [filename, content]
+    end
+
+
+    protected
+
+    def get(*args)
+      RestClient.get(*args)
     end
   end
 end
