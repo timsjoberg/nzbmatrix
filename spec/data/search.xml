@@ -1,0 +1,51 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:newznab="http://www.newznab.com/DTD/2010/feeds/attributes/">
+<channel>
+<atom:link href="http://nzb-matrix.eu/api?t=search&amp;q=linux&amp;apikey=d462101bb9345c05a78aa05244a6d54f" rel="self" type="application/rss+xml" />
+<title>NZB-Matrix</title>
+<description>NZB-Matrix Feed</description>
+<link>http://nzb-matrix.eu/</link>
+<language>en-gb</language>
+<webMaster>info@nzb-matrix.eu (NZB-Matrix)</webMaster>
+<category></category>
+<image>
+        <url>http://nzb-matrix.eu/views/images/banner.jpg</url>
+        <title>NZB-Matrix</title>
+        <link>http://nzb-matrix.eu/</link>
+        <description>Visit NZB-Matrix - Usenet indexing for automation or manual downloads with sickbeard, couchpotato, sabnzb and more.</description>
+</image>
+
+<newznab:response offset="0" total="146" />
+<item>
+        <title>Xilinx.ISE.Design.Suite.v14.4.LINUX</title>
+        <guid isPermaLink="true">http://nzb-matrix.eu/details/eef9872f48d610d6360be823dd221655</guid>
+        <link>http://nzb-matrix.eu/getnzb/eef9872f48d610d6360be823dd221655.nzb&amp;i=9878&amp;r=d462101bb9345c05a78aa05244a6d54f</link>
+        <comments>http://nzb-matrix.eu/details/eef9872f48d610d6360be823dd221655#comments</comments> 
+        <pubDate>Sat, 05 Jan 2013 19:45:10 +0100</pubDate> 
+        <category>TV &gt; Other</category> 
+        <description>Xilinx.ISE.Design.Suite.v14.4.LINUX</description>
+        <enclosure url="http://nzb-matrix.eu/getnzb/eef9872f48d610d6360be823dd221655.nzb&amp;i=9878&amp;r=d462101bb9345c05a78aa05244a6d54f" length="7569323307" type="application/x-nzb" />
+
+        <newznab:attr name="category" value="5000" />
+        <newznab:attr name="category" value="5050" />
+        <newznab:attr name="size" value="7569323307" />
+        <newznab:attr name="guid" value="eef9872f48d610d6360be823dd221655" />
+
+
+</item>
+<item>
+        <title>SynaptiCAD.Product.Suite.v17.05i.LINUX-Lz0</title>
+        <guid isPermaLink="true">http://nzb-matrix.eu/details/e3ff5580fcc48f499c639335a3f8f730</guid>
+        <link>http://nzb-matrix.eu/getnzb/e3ff5580fcc48f499c639335a3f8f730.nzb&amp;i=9878&amp;r=d462101bb9345c05a78aa05244a6d54f</link>
+        <comments>http://nzb-matrix.eu/details/e3ff5580fcc48f499c639335a3f8f730#comments</comments> 
+        <pubDate>Thu, 03 Jan 2013 21:57:54 +0100</pubDate> 
+        <category>PC &gt; 0day</category> 
+        <description>SynaptiCAD.Product.Suite.v17.05i.LINUX-Lz0</description>
+        <enclosure url="http://nzb-matrix.eu/getnzb/e3ff5580fcc48f499c639335a3f8f730.nzb&amp;i=9878&amp;r=d462101bb9345c05a78aa05244a6d54f" length="236795025" type="application/x-nzb" />
+
+        <newznab:attr name="category" value="4000" />
+        <newznab:attr name="category" value="4010" />
+        <newznab:attr name="size" value="236795025" />
+        <newznab:attr name="guid" value="e3ff5580fcc48f499c639335a3f8f730" />
+
+
+</item>
