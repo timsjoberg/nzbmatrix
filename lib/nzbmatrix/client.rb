@@ -1,6 +1,7 @@
 module Nzbmatrix
   class Client
 
+    require "nokogiri"
     require "rest_client"
     
     ENDPOINT = "http://nzb-matrix.eu"
@@ -28,8 +29,8 @@ module Nzbmatrix
     end
 
     def get_nzb(guid, options = {})
-      params = options.merge(:i => user_id, :r => api_key)
-      content = get("#{endpoint}/getnzb/#{guid}.nzb", params: params)
+      params = options.merge(:apikey => api_key, :t => "get", :id => guid)
+      content = get("#{endpoint}/api", params: params)
 
       # FIXME: Can we get the name from the HTTP headers and save on
       # parsing the document? If so, is this a good idea? Maybe the
